@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="background_movie_image">Background Movie Image</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="movie_description">Movie Description yang panjang banget soalnya mesti diisi pake deskripsi</string>
+    <string name="small_movie_image">Small Movie Image</string>
+</resources>
