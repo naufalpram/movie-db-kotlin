@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="120dp"
+    android:layout_height="132dp"
+    app:cardBackgroundColor="@color/white"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/submenu_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/cinema_pop_corn_popcorn_movies_svgrepo_com"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/submenu_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Top Rated"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="4dp"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal | bottom"
+        />
+
+</androidx.cardview.widget.CardView>

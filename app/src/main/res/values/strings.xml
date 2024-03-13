@@ -1,8 +1,20 @@
 <resources>
     <string name="app_name">Movie DB</string>
-    <string name="for_you_category">For You</string>
-    <string name="trending_category">Trending</string>
-    <string name="new_release_category">New Release</string>
+    <string name="movies_menu">Movies</string>
+    <string name="tv_show_menu">TV Show</string>
+    <string name="popular_people_menu">Popular People</string>
+    <string-array name="submenus">
+        <item>Top Rated</item>
+        <item>Upcoming</item>
+        <item>Now Playing</item>
+        <item>Popular</item>
+    </string-array>
+    <string-array name="submenus_image">
+        <item>cinema_pop_corn_popcorn_movies_svgrepo_com</item>
+        <item>cinema_glasses</item>
+        <item>cinema</item>
+        <item>cinema_hd</item>
+    </string-array>
     <string name="movie_poster_image">movie poster image</string>
     <string name="background_movie_image">Background Movie Image</string>
     <string name="movie_title">Movie Title</string>

@@ -1,42 +1,47 @@
 package com.task.moviedb
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.marginEnd
+import androidx.core.view.setPadding
+import com.google.android.material.card.MaterialCardView
 import com.task.moviedb.data.Movie
+
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var forYouScrollView: HorizontalScrollView
-    private lateinit var trendingScrollView: HorizontalScrollView
-    private lateinit var forYouContainer: LinearLayout
-    private lateinit var trendingContainer: LinearLayout
+    private lateinit var moviesScrollView: HorizontalScrollView
+    private lateinit var tvShowScrollView: HorizontalScrollView
+    private lateinit var popularPeopleScrollView: HorizontalScrollView
+    private lateinit var moviesContainer: LinearLayout
+    private lateinit var tvShowContainer: LinearLayout
+    private lateinit var popularPeopleContainer: LinearLayout
+
+    val submenu = listOf("Top Rated", "Upcoming", "Now Playing", "Popular")
+    val submenuImage = listOf(
+        R.drawable.cinema_pop_corn_popcorn_movies_svgrepo_com,
+        R.drawable.cinema_glasses,
+        R.drawable.cinema,
+        R.drawable.cinema_hd
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val resources = resources
-        fun getArray(resId: Int) = resources.getStringArray(resId)
-        fun movieFactory(arrId: Int, drawId: Int): Movie {
-            return Movie(arrId, getArray(arrId)[0], getArray(arrId)[1], drawId)
-        }
-        val movies = listOf(
-            movieFactory(R.array.argylle, R.drawable.argylle),
-            movieFactory(R.array.batman_v_superman, R.drawable.batman_v_superman),
-            movieFactory(R.array.interstellar, R.drawable.interstellar),
-            movieFactory(R.array.migration, R.drawable.migration),
-            movieFactory(R.array.star_wars, R.drawable.star_wars),
-            movieFactory(R.array.the_beekeeper, R.drawable.the_beekeeper),
-            movieFactory(R.array.the_dark_knight, R.drawable.the_dark_knight),
-            movieFactory(R.array.wonder_woman, R.drawable.wonder_woman),
-            movieFactory(R.array.wonka, R.drawable.wonka)
-        )
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -46,47 +51,41 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        forYouScrollView = findViewById(R.id.for_you_scroll_view)
-        forYouContainer = forYouScrollView.findViewById(R.id.for_you_list)
-        trendingScrollView = findViewById(R.id.trending_scroll_view)
-        trendingContainer = trendingScrollView.findViewById(R.id.trending_list)
+        moviesScrollView = findViewById(R.id.movies_scroll_view)
+        moviesContainer = moviesScrollView.findViewById(R.id.movies_list)
+        tvShowScrollView = findViewById(R.id.tv_show_scroll_view)
+        tvShowContainer = tvShowScrollView.findViewById(R.id.tv_show_list)
+        popularPeopleScrollView = findViewById(R.id.popular_people_scroll_view)
+        popularPeopleContainer = popularPeopleScrollView.findViewById(R.id.popular_people_list)
+//
+        addSubmenuToContainer(submenu, moviesContainer)
+        addSubmenuToContainer(submenu, tvShowContainer)
+        addSubmenuToContainer(submenu, popularPeopleContainer)
 
-        addMoviesToContainer(movies, forYouContainer)
-        addMoviesToContainer(movies.reversed(), trendingContainer)
     }
 
     private fun Int.dp(): Int {
         return resources.displayMetrics.density.toInt() * this
     }
 
-    private fun addMoviesToContainer(movieList: List<Movie>, container: LinearLayout) {
-        for (movie in movieList) {
-            val cardView = CardView(this)
-            val width = 160.dp()
-            val height = 240.dp()
-            val marginHorizontal = 6.dp()
-            val cardLayoutParams = LinearLayout.LayoutParams(width, height)
-            cardLayoutParams.leftMargin = marginHorizontal
-            cardLayoutParams.rightMargin = marginHorizontal
-            cardView.layoutParams = cardLayoutParams
-            cardView.radius = 8.dp().toFloat()
+    @SuppressLint("DiscouragedApi", "ResourceAsColor")
+    fun addSubmenuToContainer(submenus: List<String>, container: LinearLayout) {
+        for (i in submenus.indices) {
+            if (container.id == R.id.popular_people_list && submenus[i] != "Popular") continue
 
-            val imageView = ImageView(this)
-            imageView.id = movie.id
-            val imgLayoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+            val parent = CardView(this)
+            val layoutPar =  LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            imageView.layoutParams = imgLayoutParams
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-
-            imageView.setImageResource(movie.posterResId)
-            cardView.addView(imageView)
-
+            layoutPar.rightMargin = 32.dp()
+            parent.layoutParams = layoutPar
+            val cardView = LayoutInflater.from(this).inflate(R.layout.menu_card_view, parent) as CardView
+            cardView.findViewById<ImageView>(R.id.submenu_image).setImageResource(submenuImage[i])
+            cardView.findViewById<TextView>(R.id.submenu_text).text = submenu[i]
             cardView.setOnClickListener {
-                val goToDetailIntent = Intent(this@MainActivity, DetailActivity::class.java)
-                goToDetailIntent.putExtra("movie", movie)
-                startActivity(goToDetailIntent)
+                val goToListIntent = Intent(this@MainActivity, ListActivity::class.java)
+                startActivity(goToListIntent)
             }
             container.addView(cardView)
         }

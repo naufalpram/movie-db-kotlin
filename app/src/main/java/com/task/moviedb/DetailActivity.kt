@@ -24,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        val movie = intent.getParcelableExtra("movie", Movie::class.java)
+        val movie = intent.getParcelableExtra(SELECTED_MOVIE, Movie::class.java)
         if (movie != null) {
             Log.w("IntentData", movie.title)
             insertDataToUI(movie)
@@ -38,7 +38,11 @@ class DetailActivity : AppCompatActivity() {
         movieTitle.text = movie.title
         val movieDesc = findViewById<TextView>(R.id.movie_description)
         movieDesc.text = movie.description
-        val smallMoviePoster = findViewById<ImageView>(R.id.small_poster)
-        smallMoviePoster.setImageResource(movie.posterResId)
+        val movieRating = findViewById<TextView>(R.id.movie_rating)
+        movieRating.text = "Rating: ${movie.rating}/5"
+    }
+
+    companion object {
+        const val SELECTED_MOVIE = "selected_movie"
     }
 }
